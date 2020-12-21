@@ -8,7 +8,7 @@ static class Commands
         DateTime dt;
         DateTime d2 = new DateTime(DateTime.Now.Year, 9, 1);
         int currentWeek;
-        DateTime d1 = DateTime.Today;
+        DateTime d1  = DateTime.Today;
         currentWeek = (int)((((d1 - d2).TotalDays - 1) / 7) % 4) + 1;
 
         switch (partsOfMessage.Length)
@@ -22,12 +22,13 @@ static class Commands
                 {
                     string weekday = dt.ToString("dddd");
                     parts[1] = weekday.Substring(0, 1).ToUpper() + weekday.Substring(1);
-                    currentWeek = (int)((((dt - d2).TotalDays - 1) / 7) % 4) + 1;
+                    currentWeek = (int)((((dt - d2).TotalDays) / 7) % 4) + 1;
                     parts[2] = currentWeek.ToString();
                     parts[3] = partsOfMessage[2];
                 }
                 else
                 {
+                    if (Int32.Parse(partsOfMessage[2]) > 4 || Int32.Parse(partsOfMessage[2]) < 1) throw new Exception("WeekNumber entered incorrectly");
                     await MyDataBase.SQLReader();
                     for (int i = 0; i < partsOfMessage.Length; i++) parts[i] = partsOfMessage[i];
                     parts[3] = MyDataBase.NumberOfGroup;
@@ -63,6 +64,12 @@ static class Commands
                 }
                 else
                 {
+                    for(int i = 0; i<=7; i++)
+                    {
+                        if (partsOfMessage[1] == ((Days)i).ToString())
+                            break;
+                        if (i == 7) throw new Exception("You used the /getschedule command incorrectly.\nTo see the use cases, use the / help command");
+                    }
                     await MyDataBase.SQLReader();
                     for (int i = 0; i < partsOfMessage.Length; i++) parts[i] = partsOfMessage[i];
                     parts[2] = currentWeek.ToString();
@@ -87,6 +94,7 @@ static class Commands
         if (command.Split(' ').Length != 2) throw new Exception("You must specify your group number using \"/setgroup\"");
         string group = command.Split(' ')[1];
         await MyDataBase.SQLWriter(group);
+        Console.WriteLine("Group set successfully");
     }
 
     public static async System.Threading.Tasks.Task Start()
@@ -105,7 +113,9 @@ static class Commands
             "3. /getschedule \"CurrentDate\".\nExpample - /getschedule 01.11.2020\n" +
             "4. /getschedule \"WeekDay\".\nExpample /getschedule Пятница\n" +
             "5. /getschedule \"WeekDay\" \"WeekNumber\".\nExpample - /getschedule Пятница 4\n" +
+            "6. /getschedule \"GroupNumber\" .\nExpample - /getschedule 950506\n" +
             "You can also specify number of group at the end of the command\nExample - /getschedule 01.11.2020 950506";
+        Console.WriteLine("command /help called.");
     }
 
     public enum Days : byte

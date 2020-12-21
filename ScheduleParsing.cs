@@ -36,7 +36,7 @@
                 }
             }
         if (schedule == rootObject["schedules"][0]["schedule"][0]["studentGroupInformation"][0].ToString().Substring(21) + "\n") 
-            throw new Exception("You used the /getschedule command incorrectly.\nTo see the use cases, use the /help command");
+            throw new Exception("No classes today:)");
         return schedule;
         }
     }
