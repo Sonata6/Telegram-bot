@@ -29,7 +29,11 @@ using MySql.Data.MySqlClient;
                 NumberOfGroup = command.ExecuteScalar().ToString();
                 conn.Close();
             }
-            else throw new Exception("We don't know your group number. Please, specify your group number or set it using the command /setgroup");   // В случае, если пользователь не установил свою группу, отправляем ему это сообщение
+            else
+            {
+                conn.Close();
+                throw new Exception("We don't know your group number. Please, specify your group number or set it using the command /setgroup");   // В случае, если пользователь не установил свою группу, отправляем ему это сообщение
+            }
         }
 
         public static async System.Threading.Tasks.Task SQLWriter(string group)                                   // Метод записи/изменения группы в базе данных

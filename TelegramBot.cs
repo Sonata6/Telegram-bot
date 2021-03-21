@@ -15,11 +15,11 @@ static partial class TelegramBot
         var cts = new CancellationTokenSource();
         try
         {
-            Bot = new TelegramBotClient("1331699621:AAGdIFGkECZe-jbElPy8ikN8hefs9IqCbbk");
+            Bot = new TelegramBotClient("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
             var me = await Bot.GetMeAsync();
             Console.WriteLine($"Start working for @{me.Username}");
             await Bot.ReceiveAsync(new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync), cts.Token);
-        }
+        }   
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
