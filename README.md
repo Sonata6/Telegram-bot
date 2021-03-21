@@ -1,0 +1,1 @@
+This is telegram bot, which can send you a group schedule at BSUIR university
